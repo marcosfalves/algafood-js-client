@@ -45,8 +45,8 @@ function cadastrar() {
     contentType: "application/json",
 
     success: function(response) {
-      alert("Forma de pagamento adicionada!");
       consultar();
+      alert("Forma de pagamento adicionada!");
     },
 
     error: function(error) {
@@ -60,15 +60,46 @@ function cadastrar() {
   });
 }
 
+function excluir(formaPagamento) {
+  var url = "http://api.algafood.local:8080/formas-pagamento/" + formaPagamento.id;
+
+  $.ajax({
+    url: url,
+    type: "delete",
+
+    success: function(){
+      consultar();
+      alert("Forma de pagamento excluída!")
+    },
+
+    error: function(error) {
+      if (error.status >= 400 && error.status <= 499) {
+        var problem = JSON.parse(error.responseText);
+        alert(problem.userMessage);
+      } else {
+        alert("Erro ao excluir forma de pagamento!");
+      }
+    }
+  });
+}
+
 function preencherTabela(formasPagamento) {
   $("#tabela tbody tr").remove();
 
   $.each(formasPagamento, function (i, formaPagamento) {
     var linha = $("<tr>");
 
+    var linkAcao = $("<a href='#'>")
+    .text("Excluir")
+    .click(function(event) {
+      event.preventDefault();
+      excluir(formaPagamento);
+    });
+
     linha.append(
       $("<td>").text(formaPagamento.id),
-      $("<td>").text(formaPagamento.descricao)
+      $("<td>").text(formaPagamento.descricao),
+      $("<td>").append(linkAcao)
     );
 
     linha.appendTo("#tabela");
