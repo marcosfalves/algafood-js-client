@@ -7,8 +7,7 @@ Esse é um client para a API: https://github.com/marcosfalves/algafood-api
 ## Desenvolvido com
 * Java Script
 * JQuery
-* HTML
-* CSS
+* Bootstrap
 -------------------------
 
 ## Execução Local
