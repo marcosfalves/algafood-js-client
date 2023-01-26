@@ -21,11 +21,19 @@ function fecharRestaurante() {
 }
 
 function consultar() {
+  var url = "http://api.algafood.local:8080/formas-pagamento"
+  var codigo = $("#campo-codigo").val()
+
+  if (codigo) url = url + "/" + codigo
+
   $.ajax({
-    url: "http://api.algafood.local:8080/formas-pagamento",
+    url: url,
     type: "get",
 
     success: function (response) {
+      if (codigo){
+        response = [response]
+      }
       preencherTabela(response);
     }
   });
